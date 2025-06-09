@@ -352,7 +352,7 @@ var render = function render() {
       id: "privacy-policy-editor"
     }
   }), _vm._v(" "), _c("button", {
-    staticClass: "mt-4 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 py-2 rounded transition-colors",
+    staticClass: "mt-4 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 px-6 py-2 rounded transition-colors",
     attrs: {
       disabled: _vm.updating
     },
@@ -369,7 +369,7 @@ var render = function render() {
       id: "terms-conditions-editor"
     }
   }), _vm._v(" "), _c("button", {
-    staticClass: "mt-4 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-6 py-2 rounded transition-colors",
+    staticClass: "mt-4 bg-green-600 hover:bg-green-700 disabled:bg-green-400 px-6 py-2 rounded transition-colors",
     attrs: {
       disabled: _vm.updating
     },
@@ -402,7 +402,7 @@ var render = function render() {
       }
     }
   }), _vm._v(" "), _c("button", {
-    staticClass: "mt-4 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 text-white px-6 py-2 rounded transition-colors",
+    staticClass: "mt-4 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 px-6 py-2 rounded transition-colors",
     attrs: {
       disabled: _vm.updating
     },
@@ -412,7 +412,7 @@ var render = function render() {
   }, [_vm._v("\n          " + _vm._s(_vm.updating ? "Updating..." : "Update Footer Address") + "\n        ")])]), _vm._v(" "), _c("div", {
     staticClass: "text-center"
   }, [_c("button", {
-    staticClass: "bg-gray-800 hover:bg-gray-900 disabled:bg-gray-500 text-white px-8 py-3 rounded-lg text-lg font-medium transition-colors",
+    staticClass: "bg-gray-800 hover:bg-gray-900 disabled:bg-gray-500 px-8 py-3 rounded-lg text-lg font-medium transition-colors",
     attrs: {
       disabled: _vm.updating
     },
