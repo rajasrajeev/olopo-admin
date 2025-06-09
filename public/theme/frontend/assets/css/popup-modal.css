@@ -1,0 +1,42 @@
+.popup-modal .modal-dialog {
+    width: 265.75px;
+    margin: 10% auto;
+  }
+  
+  .popup-modal .modal-content {
+    width: 265.75px;
+    height: 489px;
+    background-color: #666;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    position: relative;
+    padding-top: 40px;
+  }
+  
+  .popup-modal .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .popup-modal .modal-body i {
+    font-size: 50px;
+    margin: 15px 0;
+  }
+  
+  .popup-modal .modal-body p {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  
+  .popup-modal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+  }

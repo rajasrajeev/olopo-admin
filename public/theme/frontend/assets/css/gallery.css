@@ -1,0 +1,29 @@
+.gallery-section h1{
+  padding-top: 5%;
+  font-weight: 500;
+  font-size: 53px;
+  line-height: 71px;
+  color: #000;
+  font-family:'Gilroy ExtraBold';
+  padding-bottom: 5%;
+}
+.coin-badge {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+  }
+
+  .gallery-card {
+    background-color: #1e1e1e;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    color: aliceblue;
+  }
+
+  .gallery-card img {
+    width: 100%;
+    height: 260px;
+    object-fit:cover;
+  }

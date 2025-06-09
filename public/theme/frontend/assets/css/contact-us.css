@@ -1,0 +1,92 @@
+.contact-us-section p{
+font-size: 24px;
+line-height: 36px;
+font-weight: 400;
+}
+#contact-us h1 {
+  font-size: 53px;
+  font-weight: 700;
+  color: #000;
+  line-height: 70px;
+  font-family: 'Gilroy ExtraBold';
+}
+
+#contact-us h1 span {
+  color: #fca311;
+}
+.mb-6 {
+  margin-bottom: 4rem;
+}
+.mb-7 {
+  margin-bottom: 5rem;
+}
+.mb-8 {
+  margin-bottom: 6rem;
+}
+.mt-6 {
+  margin-top: 4rem;
+}
+.mt-7 {
+  margin-top: 5rem;
+}
+.mt-8 {
+  margin-top: 6rem;
+}
+.mt-9 {
+  margin-top: 7rem;
+}
+.form-control,
+.form-control:focus {
+  border: none;
+  border-bottom: 1px solid #cacaca;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.form-control {
+  line-height: 4;
+}
+
+
+.form-control::placeholder {
+  color: #000000;
+  padding-bottom: 5px;
+}
+
+.btn-orange {
+  background-color: #FF7E00;
+  color: #fff;
+  padding: 1.75rem 5rem;
+  font-weight: 600;
+  border-radius: 2rem;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+.btn-orange:hover {
+  background-color: #e38d00;
+}
+
+.social-bar {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #FF7E00;
+  border-radius: 1.5rem 0 0 1.5rem;
+  padding: 1rem 0.5rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 999;
+}
+
+.social-bar a {
+  display: block;
+  color: #000;
+  margin: 0.75rem 0;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.social-bar a:hover {
+  color: #fff;
+}

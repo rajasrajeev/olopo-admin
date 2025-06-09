@@ -1,0 +1,30 @@
+<?php
+// app/Models/Gallery.php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Gallery extends Model
+{
+    use HasFactory;
+
+    protected $table = 'gallery';
+
+    protected $fillable = [
+        'title',
+        'image_path',
+        'alt_text',
+        'description',
+        'status'
+    ];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
+    public function categoryDetailImages()
+    {
+        return $this->hasMany(CategoryDetailImage::class);
+    }
+}

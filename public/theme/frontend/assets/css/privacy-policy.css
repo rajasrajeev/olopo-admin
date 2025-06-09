@@ -1,0 +1,37 @@
+
+
+  .header {
+    background: linear-gradient(90deg, #130800, #130800);
+    padding: 1rem;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .header h5 {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .container {
+    padding-bottom: 4rem;
+  }
+
+  .section-title {
+    color: #fca311;
+    margin-top: 2rem;
+    font-weight: 600;
+  }
+
+  a {
+    color: #fca311;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .text-muted {
+    color: #bbb !important;
+  }

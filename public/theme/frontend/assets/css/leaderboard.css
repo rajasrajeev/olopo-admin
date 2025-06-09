@@ -1,0 +1,101 @@
+.leaderboard-section h1 {
+  padding-top: 5%;
+  font-weight: 500;
+  font-size: 119px;
+  line-height: 71px;
+  color: #000;
+  font-family: 'Gilroy ExtraBold';
+  padding-bottom: 5%;
+}
+
+@media screen and (max-width: 768px) {
+  .leaderboard-section h1 {
+    font-size: 48px;
+    line-height: 1.2;
+    padding-top: 10%;
+    padding-bottom: 10%;
+  }
+}
+  .leaderboard-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .top-three {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .top-card {
+    text-align: center;
+    position: relative;
+  }
+
+  .top-card img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #ccc;
+  }
+
+  .rank-label {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: gold;
+    color: black;
+    font-weight: bold;
+    border-radius: 999px;
+    padding: 0 12px;
+    font-size: 0.9rem;
+  }
+
+  .top-card .crown {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.4rem;
+  }
+
+  .leaderboard-list .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+  }
+
+  .user-details {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .user-details img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .user-details div {
+    line-height: 1.2;
+  }
+
+  .highlight {
+    background-color: #fff8dc;
+    font-weight: bold;
+  }
+
+.gold-coin{
+    font-size: 1.2rem;
+    color: gold;
+  }
