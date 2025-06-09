@@ -1,5 +1,5 @@
 ## laravel + Vue js dashboard
-mini Project in Laravel and vue js. Real World Laravel 8x + vue js Dashboard.Task management and project management system. Dashboard features such as: Complete Dashboard, Custom Authentication, Email Verification, custom-login-register-forgot password (without jetstream).
+Admin panel and front end for olopo.app
 
 ## How to use
 1. git clone `git clone https://github.com/hasmukh-dharajiya/laravel-vuejs-dashboard.git`
