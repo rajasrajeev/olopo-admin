@@ -91,7 +91,7 @@
                     </div>
                     <div class="mb-3">
                         <i class="bi bi-geo-alt"></i>
-                        <span>Syama Dynamics, 6th Floor, Vytila, Eranakulam, Kerala, India</span>
+                        <span>{{ footerAddress }}</span>
                     </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
             <div class="footer-bottom">
                 <div class="row align-items-center">
                 <div class="col-md-6">
-                    <span>Copyright © 2024 AspiromTechnologies Pvt Ltd.</span>
+                    <span>Copyright © {{ currentYear }} AspiromTechnologies Pvt Ltd.</span>
                 </div>
                 <div class="col-md-6 text-md-end mt-2 mt-md-0">
                     <span>All Rights Reserved | </span>
@@ -115,3 +115,50 @@
         </footer>
     </div>
 </template>
+<script>
+export default {
+  name: "Footer",
+  data() {
+    return {
+      loading: true,
+      footerAddress: null,
+      currentYear: new Date().getFullYear()
+    }
+  },
+  async mounted() {
+    await this.fetchFooterAddress()
+  },
+  methods: {
+    async fetchFooterAddress() {
+      try {
+        this.loading = true
+
+        this.axios.get("/site-settings")
+            .then(response => {
+                if (response.data.success && response.data.data.footer_address) {
+                    this.footerAddress = response.data.data.footer_address
+                } else {
+                    this.footerAddress = null
+                }
+            })
+            .catch(error => {
+                console.log(error.response?.data);
+            });
+
+      } catch (error) {
+        console.error('Error fetching footer address:', error)
+        // Silently fail and show fallback content
+      } finally {
+        this.loading = false
+      }
+    },
+
+    formatAddress(address) {
+      if (!address) return ''
+
+      // Convert line breaks to <br> tags for display
+      return address.replace(/\n/g, '<br>')
+    }
+  }
+}
+</script>
