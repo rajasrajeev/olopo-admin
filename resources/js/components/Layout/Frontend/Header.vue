@@ -25,7 +25,7 @@
           <!-- Download button - right aligned -->
           <div class="ms-auto">
             <a href="https://mpos-dev.olopo.app/qr" target="_blank" class="download-btn">
-              <img src="theme/frontend/assets/images/downloadButton/download_button.png" alt="">
+              <img src="/theme/frontend/assets/images/downloadButton/download_button.png" alt="">
             </a>
           </div>
         </div>

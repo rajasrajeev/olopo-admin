@@ -236,17 +236,18 @@ var staticRenderFns = [function () {
     }
   }), _vm._v(" "), _c("div", {
     staticClass: "app-download-badges"
+  }, [_c("a", {
+    staticClass: "download-btn",
+    attrs: {
+      href: "https://mpos-dev.olopo.app/qr",
+      target: "_blank"
+    }
   }, [_c("img", {
     attrs: {
-      src: "/theme/frontend/assets/images/footer/2.png",
-      alt: "Google Play"
+      src: "/theme/frontend/assets/images/downloadButton/download_button.png",
+      alt: ""
     }
-  }), _vm._v(" "), _c("img", {
-    attrs: {
-      src: "/theme/frontend/assets/images/footer/3.png",
-      alt: "App Store"
-    }
-  })]), _vm._v(" "), _c("div", {
+  })])]), _vm._v(" "), _c("div", {
     staticClass: "social-icons"
   }, [_c("a", {
     attrs: {
@@ -462,7 +463,7 @@ var staticRenderFns = [function () {
     }
   }, [_c("img", {
     attrs: {
-      src: "theme/frontend/assets/images/downloadButton/download_button.png",
+      src: "/theme/frontend/assets/images/downloadButton/download_button.png",
       alt: ""
     }
   })])])])])])]);

@@ -24,8 +24,9 @@
                 <img src="/theme/frontend/assets/images/footer/1.png" alt="9lopo" class="footer-logo">
 
                 <div class="app-download-badges">
-                    <img src="/theme/frontend/assets/images/footer/2.png" alt="Google Play">
-                    <img src="/theme/frontend/assets/images/footer/3.png" alt="App Store">
+                    <a href="https://mpos-dev.olopo.app/qr" target="_blank" class="download-btn">
+                        <img src="/theme/frontend/assets/images/downloadButton/download_button.png" alt="">
+                    </a>
                 </div>
 
                 <div class="social-icons">
