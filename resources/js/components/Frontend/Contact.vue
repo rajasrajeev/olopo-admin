@@ -5,7 +5,7 @@
        <p class="text-muted">Get Started</p>
       <h1>Get in touch with us.<br><span>We're here to assist you.</span></h1>
 
-      <form class="mt-5">
+      <form class="mt-5" @submit.prevent="submitForm">
         <div class="row g-4">
           <div class="col-md-4">
             <input type="text" class="form-control" placeholder="Your Name" required>
@@ -21,6 +21,17 @@
         <div class="row mt-4">
           <div class="col-12">
             <textarea class="form-control" rows="2" placeholder="Message" required></textarea>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" v-model="consent" id="consentCheckbox">
+              <label class="form-check-label" for="consentCheckbox">
+                By submitting I give my consent to receive messages/RCS/Email/Calls from the brand regarding their updates
+              </label>
+            </div>
           </div>
         </div>
 
@@ -50,6 +61,21 @@
 <script>
 export default {
     name: "Contact",
+    data() {
+        return {
+            consent: false
+        }
+    },
+    methods: {
+        submitForm() {
+            if (!this.consent) {
+                alert('Please check the consent box to proceed.');
+                return;
+            }
+            // Proceed with form submission logic here
+            alert('Form submitted successfully!');
+        }
+    },
     mounted() {
     }
 }
