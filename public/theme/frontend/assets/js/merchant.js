@@ -2,7 +2,7 @@
 // olopo-api.js - API integration for Olopo Homepage
 
 // Configuration objects for both API endpoints
-const apiConfig = {
+const apiConfig2 = {
     admin: {
         baseUrl: 'https://olopo-dev.webc.in/api',
         authToken: null,
@@ -72,17 +72,17 @@ function loadStoredAuthData() {
         const adminToken = localStorage.getItem(STORAGE_KEYS.ADMIN_TOKEN);
         const adminUserData = localStorage.getItem(STORAGE_KEYS.ADMIN_USER_DATA);
         
-        if (adminToken) apiConfig.admin.authToken = adminToken;
-        if (adminUserData) apiConfig.admin.userData = JSON.parse(adminUserData);
+        if (adminToken) apiConfig2.admin.authToken = adminToken;
+        if (adminUserData) apiConfig2.admin.userData = JSON.parse(adminUserData);
         
         // Load gifts API data
         const giftsToken = localStorage.getItem(STORAGE_KEYS.GIFTS_TOKEN);
         const categoryData = localStorage.getItem(STORAGE_KEYS.GIFTS_CATEGORY_DATA);
         const productData = localStorage.getItem(STORAGE_KEYS.GIFTS_PRODUCT_DATA);
         
-        if (giftsToken) apiConfig.gifts.authToken = giftsToken;
-        if (categoryData) apiConfig.gifts.categoryData = JSON.parse(categoryData);
-        if (productData) apiConfig.gifts.productData = JSON.parse(productData);
+        if (giftsToken) apiConfig2.gifts.authToken = giftsToken;
+        if (categoryData) apiConfig2.gifts.categoryData = JSON.parse(categoryData);
+        if (productData) apiConfig2.gifts.productData = JSON.parse(productData);
     } catch (error) {
         console.error('Error loading stored auth data:', error);
         // Clear potentially corrupted data
@@ -101,7 +101,7 @@ function checkIfAuthenticationNeeded() {
     }
     
     // If either token is missing, authenticate again
-    if (!apiConfig.admin.authToken || !apiConfig.gifts.authToken) {
+    if (!apiConfig2.admin.authToken || !apiConfig2.gifts.authToken) {
         return true;
     }
     
@@ -129,7 +129,7 @@ async function authenticateWithBothAPIs() {
 async function authenticateWithAdminAPI() {
     try {
         // First, submit mobile number to get OTP
-        const mobileResponse = await fetch(`${apiConfig.admin.baseUrl}/auth/submit-mobile`, {
+        const mobileResponse = await fetch(`${apiConfig2.admin.baseUrl}/auth/submit-mobile`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -148,7 +148,7 @@ async function authenticateWithAdminAPI() {
         }
         
         // Now submit the OTP to get the auth token
-        const otpResponse = await fetch(`${apiConfig.admin.baseUrl}/auth/submit-otp`, {
+        const otpResponse = await fetch(`${apiConfig2.admin.baseUrl}/auth/submit-otp`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -169,8 +169,8 @@ async function authenticateWithAdminAPI() {
         }
         
         // Store the token and user data
-        apiConfig.admin.authToken = otpData.data.token;
-        apiConfig.admin.userData = otpData.data.user;
+        apiConfig2.admin.authToken = otpData.data.token;
+        apiConfig2.admin.userData = otpData.data.user;
         
         // Save to localStorage
         localStorage.setItem(STORAGE_KEYS.ADMIN_TOKEN, otpData.data.token);
@@ -185,7 +185,7 @@ async function authenticateWithAdminAPI() {
 // Authenticate with the gifts API
 async function authenticateWithGiftsAPI() {
     try {
-        const response = await fetch(`${apiConfig.gifts.baseUrl}/admin-login`, {
+        const response = await fetch(`${apiConfig2.gifts.baseUrl}/admin-login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -203,7 +203,7 @@ async function authenticateWithGiftsAPI() {
         }
         
         // Store the token
-        apiConfig.gifts.authToken = data.token;
+        apiConfig2.gifts.authToken = data.token;
         
         // Save to localStorage
         localStorage.setItem(STORAGE_KEYS.GIFTS_TOKEN, data.token);
@@ -218,10 +218,10 @@ async function authenticateWithGiftsAPI() {
 async function fetchCategoriesAndProducts() {
     try {
         // First fetch categories if we don't have them already
-        if (!apiConfig.gifts.categoryData) {
-            const categoryResponse = await fetch(`${apiConfig.gifts.baseUrl}/mobile-get/categories`, {
+        if (!apiConfig2.gifts.categoryData) {
+            const categoryResponse = await fetch(`${apiConfig2.gifts.baseUrl}/mobile-get/categories`, {
                 headers: {
-                    'Authorization': `Bearer ${apiConfig.gifts.authToken}`
+                    'Authorization': `Bearer ${apiConfig2.gifts.authToken}`
                 }
             });
             
@@ -231,21 +231,21 @@ async function fetchCategoriesAndProducts() {
                 throw new Error(categoryData.message || 'Failed to fetch categories');
             }
             
-            apiConfig.gifts.categoryData = categoryData.data;
+            apiConfig2.gifts.categoryData = categoryData.data;
             localStorage.setItem(STORAGE_KEYS.GIFTS_CATEGORY_DATA, JSON.stringify(categoryData.data));
         }
         
         // Find the API SANDBOX B2B category ID
-        const apiSandboxCategory = apiConfig.gifts.categoryData[0];
+        const apiSandboxCategory = apiConfig2.gifts.categoryData[0];
         
         if (!apiSandboxCategory) {
             throw new Error('API SANDBOX B2B category not found');
         }
         
         // Now fetch products for this category with pagination
-        const productsResponse = await fetch(`${apiConfig.gifts.baseUrl}/mobile-get/categories/${apiSandboxCategory.id}/products?page=${apiConfig.gifts.currentPage}&limit=${apiConfig.gifts.productsPerPage}`, {
+        const productsResponse = await fetch(`${apiConfig2.gifts.baseUrl}/mobile-get/categories/${apiSandboxCategory.id}/products?page=${apiConfig2.gifts.currentPage}&limit=${apiConfig2.gifts.productsPerPage}`, {
             headers: {
-                'Authorization': `Bearer ${apiConfig.gifts.authToken}`
+                'Authorization': `Bearer ${apiConfig2.gifts.authToken}`
             }
         });
         
@@ -256,25 +256,25 @@ async function fetchCategoriesAndProducts() {
         }
         
         // If this is the first page, set the product data
-        if (apiConfig.gifts.currentPage === 1) {
-            apiConfig.gifts.productData = productsData.data;
+        if (apiConfig2.gifts.currentPage === 1) {
+            apiConfig2.gifts.productData = productsData.data;
         } else {
             // Otherwise, append the new products to the existing array
-            if (apiConfig.gifts.productData && apiConfig.gifts.productData.products) {
-                apiConfig.gifts.productData.products = [
-                    ...apiConfig.gifts.productData.products,
+            if (apiConfig2.gifts.productData && apiConfig2.gifts.productData.products) {
+                apiConfig2.gifts.productData.products = [
+                    ...apiConfig2.gifts.productData.products,
                     ...productsData.data.products
                 ];
             } else {
-                apiConfig.gifts.productData = productsData.data;
+                apiConfig2.gifts.productData = productsData.data;
             }
         }
         
         // Check if more products are available
-        apiConfig.gifts.hasMoreProducts = productsData.data.products.length === apiConfig.gifts.productsPerPage;
+        apiConfig2.gifts.hasMoreProducts = productsData.data.products.length === apiConfig2.gifts.productsPerPage;
         
         // Save to localStorage
-        localStorage.setItem(STORAGE_KEYS.GIFTS_PRODUCT_DATA, JSON.stringify(apiConfig.gifts.productData));
+        localStorage.setItem(STORAGE_KEYS.GIFTS_PRODUCT_DATA, JSON.stringify(apiConfig2.gifts.productData));
         
     } catch (error) {
         console.error('Error fetching categories and products:', error);
@@ -285,12 +285,12 @@ async function fetchCategoriesAndProducts() {
 // Render the products to the brand section of the page
 function renderProductsToPage(append = false) {
     // Make sure we have product data
-    if (!apiConfig.gifts.productData || !apiConfig.gifts.productData.products) {
+    if (!apiConfig2.gifts.productData || !apiConfig2.gifts.productData.products) {
         console.error('No product data available to render');
         return;
     }
     
-    const products = apiConfig.gifts.productData.products;
+    const products = apiConfig2.gifts.productData.products;
     const brandGrid = document.querySelector('.card-grid-gift');
     
     // Clear existing cards if not appending
@@ -300,7 +300,7 @@ function renderProductsToPage(append = false) {
     
     if (brandGrid) {
         // If appending, only add the new products (from the current page)
-        const startIndex = append ? (apiConfig.gifts.currentPage - 1) * apiConfig.gifts.productsPerPage : 0;
+        const startIndex = append ? (apiConfig2.gifts.currentPage - 1) * apiConfig2.gifts.productsPerPage : 0;
         const endIndex = append ? products.length : products.length;
         
         // Add new cards based on product data
@@ -323,7 +323,7 @@ function renderProductsToPage(append = false) {
 function updateViewMoreButtonState() {
     const viewMoreBtn = document.querySelector('.view-more');
     if (viewMoreBtn) {
-        if (apiConfig.gifts.hasMoreProducts) {
+        if (apiConfig2.gifts.hasMoreProducts) {
             viewMoreBtn.style.display = 'block';
             viewMoreBtn.textContent = 'View More';
         } else {
@@ -372,7 +372,7 @@ function createProductCard(product) {
 async function loadMoreProducts() {
     try {
         // Increment the page counter
-        apiConfig.gifts.currentPage++;
+        apiConfig2.gifts.currentPage++;
         
         showLoadingIndicator('Loading more products...');
         
@@ -389,7 +389,7 @@ async function loadMoreProducts() {
         showErrorMessage('Failed to load more products. Please try again.');
         
         // Revert the page counter on error
-        apiConfig.gifts.currentPage--;
+        apiConfig2.gifts.currentPage--;
     }
 }
 
@@ -537,13 +537,13 @@ function clearStoredAuthData() {
     localStorage.removeItem(STORAGE_KEYS.LAST_AUTH_TIME);
     
     // Reset the in-memory config as well
-    apiConfig.admin.authToken = null;
-    apiConfig.admin.userData = null;
-    apiConfig.gifts.authToken = null;
-    apiConfig.gifts.categoryData = null;
-    apiConfig.gifts.productData = null;
-    apiConfig.gifts.currentPage = 1;
-    apiConfig.gifts.hasMoreProducts = true;
+    apiConfig2.admin.authToken = null;
+    apiConfig2.admin.userData = null;
+    apiConfig2.gifts.authToken = null;
+    apiConfig2.gifts.categoryData = null;
+    apiConfig2.gifts.productData = null;
+    apiConfig2.gifts.currentPage = 1;
+    apiConfig2.gifts.hasMoreProducts = true;
 }
 
 // Utility function to format currency

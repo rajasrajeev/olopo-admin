@@ -80,7 +80,7 @@ export const routes = [
             path: '/gift-vouchers',
             name: 'frontend.gift',
             meta: {
-                title: 'Terms and Conditions | Olopo'
+                title: 'Gift Vouchers | Olopo'
             },
             component: () => import('./components/Frontend/Gift')
         },
@@ -88,7 +88,7 @@ export const routes = [
             path: '/merchant-vouchers',
             name: 'frontend.merchant',
             meta: {
-                title: 'Terms and Conditions | Olopo'
+                title: 'Merchant Vouchers | Olopo'
             },
             component: () => import('./components/Frontend/Merchant')
         }

@@ -134,15 +134,23 @@ __webpack_require__.r(__webpack_exports__);
         _this2.isVerify = false;
         _this2.email = item.email;
       })["catch"](function (error) {
-        console.log(error.response.data);
+        if (error.response && error.response.status === 401) {
+          // Handle unauthorized access
+          // this.$router.push('/login').catch(() => {});
+        } else {
+          console.error('Error fetching user info:', error.response ? error.response.data : error);
+        }
       });
     }
   },
   beforeMount: function beforeMount() {
     this.axios.get('api/v1/auth/check').then(function (response) {})["catch"](function (error) {
-      /* if (error.response.data.status === false){
-          window.location.href = '/';
-      } */
+      if (error.response && error.response.status === 401) {
+        // Handle unauthorized access
+        // this.$router.push('/login').catch(() => {});
+      } else {
+        console.error('Auth check error:', error);
+      }
     });
   },
   mounted: function mounted() {

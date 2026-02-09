@@ -52,7 +52,12 @@ export default {
                     this.email = item.email;
                 })
                 .catch(error => {
-                    console.log(error.response.data)
+                    if (error.response && error.response.status === 401) {
+                        // Handle unauthorized access
+                        // this.$router.push('/login').catch(() => {});
+                    } else {
+                        console.error('Error fetching user info:', error.response ? error.response.data : error);
+                    }
                 })
         }
     },
@@ -62,9 +67,12 @@ export default {
         .then(response => {
         })
         .catch(error => {
-            /* if (error.response.data.status === false){
-                window.location.href = '/';
-            } */
+            if (error.response && error.response.status === 401) {
+                // Handle unauthorized access
+                // this.$router.push('/login').catch(() => {});
+            } else {
+                console.error('Auth check error:', error);
+            }
         })
     },
     mounted() {

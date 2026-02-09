@@ -85,6 +85,9 @@
     <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
   <script src="{{ asset('theme/frontend/assets/js/script.js') }}"></script>
   <script src="{{ asset('theme/frontend/assets/js/google-search.js') }}"></script>
+  <script src="{{ asset('theme/frontend/assets/js/event.js') }}"></script>
+  <script src="{{ asset('theme/frontend/assets/js/gift.js') }}"></script>
+  <script src="{{ asset('theme/frontend/assets/js/leaderboard.js') }}"></script>
 
   <!-- Route-specific JavaScript files -->
   @if(Route::currentRouteName() == 'events')
