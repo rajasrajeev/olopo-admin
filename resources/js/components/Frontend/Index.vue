@@ -116,29 +116,50 @@
     </div>
   </section>
 
-  <section class="mt-1 mb-5 mx-6">
+<section class="olopo-app-section mt-3 mb-5 mx-6">
+  <div class="olopo-box">
+    <h2>Why juggle so many apps when one app can do it all?</h2>
 
-    <div class="info-buttons">
-      <a href="/leaderboard">
-        <button class="info-button">
-          <img src="/theme/frontend/assets/images/category/user-leaderboard.png" alt="User Leaderboard" />
-          <!-- <span>User Leaderboard</span> -->
-        </button>
+    <p class="lead">
+      With the <strong>OLOPO App</strong>, you can handle online & offline shopping,
+      events, movies, travel, and more — all from one trusted platform.
+    </p>
+
+    <p>
+      I personally use <strong>OLOPO</strong>. It has helped me save more money
+      and even earn a second income. That’s why I genuinely believe this can help you too.
+    </p>
+
+    <div class="offer-box">
+      <p class="offer-title">🎯 Limited-Time Opportunity</p>
+      <ul>
+        <li>⏳ Refer 10 people within 7 days to enter the OLOPO Customer Club</li>
+        <li>🎁 Get ₹5,000 cashback rewards for shopping</li>
+        <li>💰 Chance to win ₹25 Lakhs in cash</li>
+      </ul>
+
+      <!-- <p class="ref-code">
+        👉 Use my referral code: <strong>SEB7594</strong>
+      </p> -->
+    </div>
+
+    <div class="store-buttons">
+      <a href="https://play.google.com/store/apps/details?id=com.wac.olopouser"
+         target="_blank"
+         class="store-btn android">
+        Get it on Google Play
       </a>
-      <a href="/movies">
-        <button class="info-button">
-          <img src="/theme/frontend/assets/images/category/movie-updates.png" alt="Movie updates" />
-          <!-- <span>Movie updates</span> -->
-        </button>
-      </a>
-      <a href="/events">
-        <button class="info-button">
-          <img src="/theme/frontend/assets/images/category/event-updates.png" alt="Event updates" />
-          <!-- <span>Event updates</span> -->
-        </button>
+
+      <a href="https://apps.apple.com/app/id6651817861"
+         target="_blank"
+         class="store-btn ios">
+        Download on App Store
       </a>
     </div>
-  </section>
+  </div>
+</section>
+
+
 
 
   <section class="brand-section mx-5">
@@ -194,3 +215,116 @@ export default {
     }
 }
 </script>
+<style>
+.olopo-app-section {
+  background: #f8f9fb;
+  border-radius: 20px;
+}
+
+.olopo-box {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.olopo-box h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.olopo-box .lead {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.olopo-box p {
+  font-size: 16px;
+  color: #555;
+}
+
+.offer-box {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 25px 0;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  text-align: left;
+}
+
+.offer-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.offer-box ul {
+  padding-left: 18px;
+  margin: 10px 0;
+}
+
+.offer-box li {
+  margin-bottom: 8px;
+}
+
+.ref-code {
+  margin-top: 12px;
+  font-size: 17px;
+}
+
+.store-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.store-btn {
+  padding: 14px 22px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+.store-btn.android {
+  background: linear-gradient(135deg, #34a853, #0f9d58);
+}
+
+.store-btn.ios {
+  background: linear-gradient(135deg, #000000, #444444);
+}
+
+.store-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+}
+
+.more-link {
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .olopo-box h2 {
+    font-size: 22px;
+  }
+
+  .olopo-box .lead {
+    font-size: 16px;
+  }
+
+  .store-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+</style>

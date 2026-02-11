@@ -304,7 +304,7 @@ function renderProductsToPage(append = false) {
         const endIndex = append ? products.length : products.length;
         
         // Add new cards based on product data
-        for (let i = startIndex; i < 4; i++) {
+        for (let i = startIndex; i < (products.length-1); i++) {
             const product = products[i];
             if (product) { // Make sure product exists
                 const productCard = createProductCard(product);
