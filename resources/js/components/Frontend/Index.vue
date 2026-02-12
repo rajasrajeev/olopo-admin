@@ -126,9 +126,10 @@
     </p>
 
     <p>
-      I personally use <strong>OLOPO</strong>. It has helped me save more money
-      and even earn a second income. That’s why I genuinely believe this can help you too.
+      We personally use <strong>OLOPO</strong>. It has helped us save more money
+      and even earn a second income. That’s why we genuinely believe this can help you too.
     </p>
+
 
     <div class="offer-box">
       <p class="offer-title">🎯 Limited-Time Opportunity</p>
