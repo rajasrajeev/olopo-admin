@@ -126,8 +126,8 @@
     </p>
 
     <p>
-      We personally use <strong>OLOPO</strong>. It will help you save more money
-      and even earn a second income. That’s why we genuinely believe this can help you too.
+      With <strong>OLOPO</strong>, you can save more money
+      and even earn a second income.
     </p>
 
 

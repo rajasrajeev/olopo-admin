@@ -265,7 +265,7 @@ var staticRenderFns = [function () {
     staticClass: "olopo-box"
   }, [_c("h2", [_vm._v("Why juggle so many apps when one app can do it all?")]), _vm._v(" "), _c("p", {
     staticClass: "lead"
-  }, [_vm._v("\n      With the "), _c("strong", [_vm._v("OLOPO App")]), _vm._v(", you can handle online & offline shopping,\n      events, movies, travel, and more — all from one trusted platform.\n    ")]), _vm._v(" "), _c("p", [_vm._v("\n      We personally use "), _c("strong", [_vm._v("OLOPO")]), _vm._v(". It will help you save more money\n      and even earn a second income. That’s why we genuinely believe this can help you too.\n    ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n      With the "), _c("strong", [_vm._v("OLOPO App")]), _vm._v(", you can handle online & offline shopping,\n      events, movies, travel, and more — all from one trusted platform.\n    ")]), _vm._v(" "), _c("p", [_vm._v("\n      With "), _c("strong", [_vm._v("OLOPO")]), _vm._v(", you can save more money\n      and even earn a second income.\n    ")]), _vm._v(" "), _c("div", {
     staticClass: "offer-box"
   }, [_c("p", {
     staticClass: "offer-title"
