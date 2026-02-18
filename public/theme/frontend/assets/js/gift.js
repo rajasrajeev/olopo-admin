@@ -307,6 +307,7 @@ function renderProductsToPage(append = false) {
 
     // 🏠 Home page → only show 4 products
     if (currentRoute === '/') {
+        console.log("current route ===========>", currentRoute)
         productsToRender = products.slice(0, 4);
 
         // Hide View More button on homepage (optional)
@@ -316,6 +317,7 @@ function renderProductsToPage(append = false) {
 
     // 🎁 Gift vouchers page → use pagination
     else if (currentRoute === '/gift-vouchers') {
+        console.log("current route gif ===========>", currentRoute)
         const startIndex = append
             ? (apiConfig1.gifts.currentPage - 1) * apiConfig1.gifts.productsPerPage
             : 0;
