@@ -20,7 +20,7 @@ const apiConfig3 = {
 };
 
 // Local storage keys
-const STORAGE_KEYS = {
+const STORAGE_KEYS1 = {
     ADMIN_TOKEN: 'olopo_admin_token',
     ADMIN_USER_DATA: 'olopo_admin_user_data',
     GIFTS_TOKEN: 'olopo_gifts_token',
@@ -69,16 +69,16 @@ async function initializeApp() {
 function loadStoredAuthData() {
     try {
         // Load admin API data
-        const adminToken = localStorage.getItem(STORAGE_KEYS.ADMIN_TOKEN);
-        const adminUserData = localStorage.getItem(STORAGE_KEYS.ADMIN_USER_DATA);
+        const adminToken = localStorage.getItem(STORAGE_KEYS1.ADMIN_TOKEN);
+        const adminUserData = localStorage.getItem(STORAGE_KEYS1.ADMIN_USER_DATA);
         
         if (adminToken) apiConfig3.admin.authToken = adminToken;
         if (adminUserData) apiConfig3.admin.userData = JSON.parse(adminUserData);
         
         // Load gifts API data
-        const giftsToken = localStorage.getItem(STORAGE_KEYS.GIFTS_TOKEN);
-        const categoryData = localStorage.getItem(STORAGE_KEYS.GIFTS_CATEGORY_DATA);
-        const productData = localStorage.getItem(STORAGE_KEYS.GIFTS_PRODUCT_DATA);
+        const giftsToken = localStorage.getItem(STORAGE_KEYS1.GIFTS_TOKEN);
+        const categoryData = localStorage.getItem(STORAGE_KEYS1.GIFTS_CATEGORY_DATA);
+        const productData = localStorage.getItem(STORAGE_KEYS1.GIFTS_PRODUCT_DATA);
         
         if (giftsToken) apiConfig3.gifts.authToken = giftsToken;
         if (categoryData) apiConfig3.gifts.categoryData = JSON.parse(categoryData);
@@ -92,7 +92,7 @@ function loadStoredAuthData() {
 
 // Check if we need to authenticate again (token expired or missing)
 function checkIfAuthenticationNeeded() {
-    const lastAuthTime = localStorage.getItem(STORAGE_KEYS.LAST_AUTH_TIME);
+    const lastAuthTime = localStorage.getItem(STORAGE_KEYS1.LAST_AUTH_TIME);
     const currentTime = new Date().getTime();
     
     // If last auth was more than 6 hours ago or doesn't exist, authenticate again
@@ -118,7 +118,7 @@ async function authenticateWithBothAPIs() {
         await authenticateWithGiftsAPI();
         
         // Store the authentication time
-        localStorage.setItem(STORAGE_KEYS.LAST_AUTH_TIME, new Date().getTime().toString());
+        localStorage.setItem(STORAGE_KEYS1.LAST_AUTH_TIME, new Date().getTime().toString());
     } catch (error) {
         console.error('Authentication error:', error);
         throw new Error('Failed to authenticate with Olopo services');
@@ -173,8 +173,8 @@ async function authenticateWithAdminAPI() {
         apiConfig3.admin.userData = otpData.data.user;
         
         // Save to localStorage
-        localStorage.setItem(STORAGE_KEYS.ADMIN_TOKEN, otpData.data.token);
-        localStorage.setItem(STORAGE_KEYS.ADMIN_USER_DATA, JSON.stringify(otpData.data.user));
+        localStorage.setItem(STORAGE_KEYS1.ADMIN_TOKEN, otpData.data.token);
+        localStorage.setItem(STORAGE_KEYS1.ADMIN_USER_DATA, JSON.stringify(otpData.data.user));
         
     } catch (error) {
         console.error('Admin API authentication error:', error);
@@ -206,7 +206,7 @@ async function authenticateWithGiftsAPI() {
         apiConfig3.gifts.authToken = data.token;
         
         // Save to localStorage
-        localStorage.setItem(STORAGE_KEYS.GIFTS_TOKEN, data.token);
+        localStorage.setItem(STORAGE_KEYS1.GIFTS_TOKEN, data.token);
         
     } catch (error) {
         console.error('Gifts API authentication error:', error);
@@ -232,7 +232,7 @@ async function fetchCategoriesAndProducts() {
             }
             
             apiConfig3.gifts.categoryData = categoryData.data;
-            localStorage.setItem(STORAGE_KEYS.GIFTS_CATEGORY_DATA, JSON.stringify(categoryData.data));
+            localStorage.setItem(STORAGE_KEYS1.GIFTS_CATEGORY_DATA, JSON.stringify(categoryData.data));
         }
         
         // Find the API SANDBOX B2B category ID
@@ -274,7 +274,7 @@ async function fetchCategoriesAndProducts() {
         apiConfig3.gifts.hasMoreProducts = productsData.data.products.length === apiConfig3.gifts.productsPerPage;
         
         // Save to localStorage
-        localStorage.setItem(STORAGE_KEYS.GIFTS_PRODUCT_DATA, JSON.stringify(apiConfig3.gifts.productData));
+        localStorage.setItem(STORAGE_KEYS1.GIFTS_PRODUCT_DATA, JSON.stringify(apiConfig3.gifts.productData));
         
     } catch (error) {
         console.error('Error fetching categories and products:', error);
@@ -526,12 +526,12 @@ function showErrorMessage(message) {
 
 // Clear all stored authentication data
 function clearStoredAuthData() {
-    localStorage.removeItem(STORAGE_KEYS.ADMIN_TOKEN);
-    localStorage.removeItem(STORAGE_KEYS.ADMIN_USER_DATA);
-    localStorage.removeItem(STORAGE_KEYS.GIFTS_TOKEN);
-    localStorage.removeItem(STORAGE_KEYS.GIFTS_CATEGORY_DATA);
-    localStorage.removeItem(STORAGE_KEYS.GIFTS_PRODUCT_DATA);
-    localStorage.removeItem(STORAGE_KEYS.LAST_AUTH_TIME);
+    localStorage.removeItem(STORAGE_KEYS1.ADMIN_TOKEN);
+    localStorage.removeItem(STORAGE_KEYS1.ADMIN_USER_DATA);
+    localStorage.removeItem(STORAGE_KEYS1.GIFTS_TOKEN);
+    localStorage.removeItem(STORAGE_KEYS1.GIFTS_CATEGORY_DATA);
+    localStorage.removeItem(STORAGE_KEYS1.GIFTS_PRODUCT_DATA);
+    localStorage.removeItem(STORAGE_KEYS1.LAST_AUTH_TIME);
     
     // Reset the in-memory config as well
     apiConfig3.admin.authToken = null;
