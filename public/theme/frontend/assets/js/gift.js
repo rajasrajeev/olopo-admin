@@ -30,9 +30,9 @@ const STORAGE_KEYS = {
 };
 
 // Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeApp();
-    
+
     // Set up event listeners for the page
     setupEventListeners();
 });
@@ -42,21 +42,21 @@ async function initializeApp() {
     try {
         // Check if we have valid tokens in storage
         loadStoredAuthData();
-        
+
         // If tokens are expired or missing, authenticate again
         const needsAuth = checkIfAuthenticationNeeded();
-        
+
         if (needsAuth) {
             showLoadingIndicator('Connecting to Olopo services...');
             await authenticateWithBothAPIs();
         }
-        
+
         // Fetch categories and initial set of products
         await fetchCategoriesAndProducts();
-        
+
         // Render the products to the page
         renderProductsToPage(false); // false means don't append, replace
-        
+
         hideLoadingIndicator();
     } catch (error) {
         console.error('Initialization error:', error);
@@ -71,15 +71,15 @@ function loadStoredAuthData() {
         // Load admin API data
         const adminToken = localStorage.getItem(STORAGE_KEYS.ADMIN_TOKEN);
         const adminUserData = localStorage.getItem(STORAGE_KEYS.ADMIN_USER_DATA);
-        
+
         if (adminToken) apiConfig1.admin.authToken = adminToken;
         if (adminUserData) apiConfig1.admin.userData = JSON.parse(adminUserData);
-        
+
         // Load gifts API data
         const giftsToken = localStorage.getItem(STORAGE_KEYS.GIFTS_TOKEN);
         const categoryData = localStorage.getItem(STORAGE_KEYS.GIFTS_CATEGORY_DATA);
         const productData = localStorage.getItem(STORAGE_KEYS.GIFTS_PRODUCT_DATA);
-        
+
         if (giftsToken) apiConfig1.gifts.authToken = giftsToken;
         if (categoryData) apiConfig1.gifts.categoryData = JSON.parse(categoryData);
         if (productData) apiConfig1.gifts.productData = JSON.parse(productData);
@@ -94,17 +94,17 @@ function loadStoredAuthData() {
 function checkIfAuthenticationNeeded() {
     const lastAuthTime = localStorage.getItem(STORAGE_KEYS.LAST_AUTH_TIME);
     const currentTime = new Date().getTime();
-    
+
     // If last auth was more than 6 hours ago or doesn't exist, authenticate again
     if (!lastAuthTime || (currentTime - parseInt(lastAuthTime)) > 6 * 60 * 60 * 1000) {
         return true;
     }
-    
+
     // If either token is missing, authenticate again
     if (!apiConfig1.admin.authToken || !apiConfig1.gifts.authToken) {
         return true;
     }
-    
+
     return false;
 }
 
@@ -113,10 +113,10 @@ async function authenticateWithBothAPIs() {
     try {
         // First authenticate with admin API
         await authenticateWithAdminAPI();
-        
+
         // Then authenticate with gifts API
         await authenticateWithGiftsAPI();
-        
+
         // Store the authentication time
         localStorage.setItem(STORAGE_KEYS.LAST_AUTH_TIME, new Date().getTime().toString());
     } catch (error) {
@@ -140,13 +140,13 @@ async function authenticateWithAdminAPI() {
                 user_type: 'customer'
             })
         });
-        
+
         const mobileData = await mobileResponse.json();
-        
+
         if (!mobileResponse.ok || !mobileData.success) {
             throw new Error(mobileData.message || 'Failed to send OTP');
         }
-        
+
         // Now submit the OTP to get the auth token
         const otpResponse = await fetch(`${apiConfig1.admin.baseUrl}/auth/submit-otp`, {
             method: 'POST',
@@ -161,21 +161,21 @@ async function authenticateWithAdminAPI() {
                 onesignal_player_id: '1111'
             })
         });
-        
+
         const otpData = await otpResponse.json();
-        
+
         if (!otpResponse.ok || !otpData.success) {
             throw new Error(otpData.message || 'Failed to validate OTP');
         }
-        
+
         // Store the token and user data
         apiConfig1.admin.authToken = otpData.data.token;
         apiConfig1.admin.userData = otpData.data.user;
-        
+
         // Save to localStorage
         localStorage.setItem(STORAGE_KEYS.ADMIN_TOKEN, otpData.data.token);
         localStorage.setItem(STORAGE_KEYS.ADMIN_USER_DATA, JSON.stringify(otpData.data.user));
-        
+
     } catch (error) {
         console.error('Admin API authentication error:', error);
         throw error;
@@ -195,19 +195,19 @@ async function authenticateWithGiftsAPI() {
                 password: 'olopo@123'
             })
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok || !data.token) {
             throw new Error(data.message || 'Failed to authenticate with gifts API');
         }
-        
+
         // Store the token
         apiConfig1.gifts.authToken = data.token;
-        
+
         // Save to localStorage
         localStorage.setItem(STORAGE_KEYS.GIFTS_TOKEN, data.token);
-        
+
     } catch (error) {
         console.error('Gifts API authentication error:', error);
         throw error;
@@ -224,37 +224,37 @@ async function fetchCategoriesAndProducts() {
                     'Authorization': `Bearer ${apiConfig1.gifts.authToken}`
                 }
             });
-            
+
             const categoryData = await categoryResponse.json();
-            
+
             if (!categoryResponse.ok) {
                 throw new Error(categoryData.message || 'Failed to fetch categories');
             }
-            
+
             apiConfig1.gifts.categoryData = categoryData.data;
             localStorage.setItem(STORAGE_KEYS.GIFTS_CATEGORY_DATA, JSON.stringify(categoryData.data));
         }
-        
+
         // Find the API SANDBOX B2B category ID
         const apiSandboxCategory = apiConfig1.gifts.categoryData[0];
-        
+
         if (!apiSandboxCategory) {
             throw new Error('API SANDBOX B2B category not found');
         }
-        
+
         // Now fetch products for this category with pagination
         const productsResponse = await fetch(`${apiConfig1.gifts.baseUrl}/mobile-get/categories/${apiSandboxCategory.id}/products?page=${apiConfig1.gifts.currentPage}&limit=${apiConfig1.gifts.productsPerPage}`, {
             headers: {
                 'Authorization': `Bearer ${apiConfig1.gifts.authToken}`
             }
         });
-        
+
         const productsData = await productsResponse.json();
-        
+
         if (!productsResponse.ok) {
             throw new Error(productsData.message || 'Failed to fetch products');
         }
-        
+
         // If this is the first page, set the product data
         if (apiConfig1.gifts.currentPage === 1) {
             apiConfig1.gifts.productData = productsData.data;
@@ -269,55 +269,71 @@ async function fetchCategoriesAndProducts() {
                 apiConfig1.gifts.productData = productsData.data;
             }
         }
-        
+
         // Check if more products are available
         apiConfig1.gifts.hasMoreProducts = productsData.data.products.length === apiConfig1.gifts.productsPerPage;
-        
+
         // Save to localStorage
         localStorage.setItem(STORAGE_KEYS.GIFTS_PRODUCT_DATA, JSON.stringify(apiConfig1.gifts.productData));
-        
+
     } catch (error) {
         console.error('Error fetching categories and products:', error);
         throw error;
     }
 }
 
-// Render the products to the brand section of the page
 function renderProductsToPage(append = false) {
-    // Make sure we have product data
     if (!apiConfig1.gifts.productData || !apiConfig1.gifts.productData.products) {
         console.error('No product data available to render');
         return;
     }
-    
+
     const products = apiConfig1.gifts.productData.products;
     const brandGrid = document.querySelector('.card-grid-gift');
-    
-    // Clear existing cards if not appending
-    if (brandGrid && !append) {
+
+    if (!brandGrid) {
+        console.error('Brand grid element not found in the DOM');
+        return;
+    }
+
+    const currentRoute = window.location.pathname;
+
+    // Clear grid if not appending
+    if (!append) {
         brandGrid.innerHTML = '';
     }
-    
-    if (brandGrid) {
-        // If appending, only add the new products (from the current page)
-        const startIndex = append ? (apiConfig1.gifts.currentPage - 1) * apiConfig1.gifts.productsPerPage : 0;
-        const endIndex = append ? products.length : products.length;
-        
-        // Add new cards based on product data
-        for (let i = startIndex; i < endIndex; i++) {
-            const product = products[i];
-            if (product) { // Make sure product exists
-                const productCard = createProductCard(product);
-                brandGrid.appendChild(productCard);
-            }
-        }
-        
-        // Update the "View More" button visibility based on whether there are more products
-        updateViewMoreButtonState();
-    } else {
-        console.error('Brand grid element not found in the DOM');
+
+    let productsToRender = [];
+
+    // 🏠 Home page → only show 4 products
+    if (currentRoute === '/') {
+        productsToRender = products.slice(0, 4);
+
+        // Hide View More button on homepage (optional)
+        const viewMoreBtn = document.querySelector('.view-more-btn');
+        if (viewMoreBtn) viewMoreBtn.style.display = 'none';
     }
+
+    // 🎁 Gift vouchers page → use pagination
+    else if (currentRoute === '/gift-vouchers') {
+        const startIndex = append
+            ? (apiConfig1.gifts.currentPage - 1) * apiConfig1.gifts.productsPerPage
+            : 0;
+
+        const endIndex = apiConfig1.gifts.currentPage * apiConfig1.gifts.productsPerPage;
+
+        productsToRender = products.slice(startIndex, endIndex);
+
+        updateViewMoreButtonState();
+    }
+
+    // Render products
+    productsToRender.forEach(product => {
+        const productCard = createProductCard(product);
+        brandGrid.appendChild(productCard);
+    });
 }
+
 
 // Update the state of the "View More" button
 function updateViewMoreButtonState() {
@@ -340,13 +356,13 @@ function createProductCard(product) {
     const card = document.createElement('div');
     card.className = 'brand-card';
     card.dataset.productId = product._id;
-    
+
     // Get the appropriate image URL
     const imageUrl = product.images.mobile || 'assets/images/brands/new-smartphones-stand-row-showcase-store 1.png';
-    
+
     // Create a discount percentage (random for demo)
     const discountPercent = Math.floor(Math.random() * 40) + 10; // Random between 10% and 50%
-    
+
     card.innerHTML = `
         <div class="image-wrapper">
             <img src="${imageUrl}" alt="${product.name}">
@@ -357,12 +373,12 @@ function createProductCard(product) {
             <p>SKU: ${product.sku}</p>
         </div>
     `;
-    
+
     // Add click event to view product details
     card.addEventListener('click', () => {
         showProductDetails(product);
     });
-    
+
     return card;
 }
 
@@ -371,21 +387,21 @@ async function loadMoreProducts() {
     try {
         // Increment the page counter
         apiConfig1.gifts.currentPage++;
-        
+
         showLoadingIndicator('Loading more products...');
-        
+
         // Fetch the next page of products
         await fetchCategoriesAndProducts();
-        
+
         // Render the new products, appending them to existing ones
         renderProductsToPage(true);
-        
+
         hideLoadingIndicator();
     } catch (error) {
         console.error('Error loading more products:', error);
         hideLoadingIndicator();
         showErrorMessage('Failed to load more products. Please try again.');
-        
+
         // Revert the page counter on error
         apiConfig1.gifts.currentPage--;
     }
@@ -415,18 +431,18 @@ function showProductDetails(product) {
             </div>
         </div>
     `;
-    
+
     // Add modal to document
     const modalContainer = document.createElement('div');
     modalContainer.innerHTML = modalContent;
     document.body.appendChild(modalContainer);
-    
+
     // Initialize and show the modal
     const modal = new bootstrap.Modal(document.getElementById('productDetailModal'));
     modal.show();
-    
+
     // Remove modal from DOM when it's hidden
-    document.getElementById('productDetailModal').addEventListener('hidden.bs.modal', function() {
+    document.getElementById('productDetailModal').addEventListener('hidden.bs.modal', function () {
         document.body.removeChild(modalContainer);
     });
 }
@@ -436,12 +452,12 @@ function setupEventListeners() {
     // View more button for brands section
     const viewMoreBtn = document.querySelector('.view-more');
     if (viewMoreBtn) {
-        viewMoreBtn.addEventListener('click', function() {
+        viewMoreBtn.addEventListener('click', function () {
             // Call the load more function instead of redirecting
             loadMoreProducts();
         });
     }
-    
+
     // Setup navigation buttons
     setupNavigationButtons();
 }
@@ -449,22 +465,22 @@ function setupEventListeners() {
 // Setup navigation buttons (OLOPO USER APP, MERCHANT APP, FRANCHISE)
 function setupNavigationButtons() {
     const navButtons = document.querySelectorAll('.usersection-buttons .button');
-    
+
     navButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             // Remove selected class from all buttons
             navButtons.forEach(btn => btn.classList.remove('selected'));
-            
+
             // Add selected class to clicked button
             this.classList.add('selected');
-            
+
             // Handle navigation based on button text
             const buttonText = this.textContent.trim();
-            
+
             // Implement different views based on the selected button
             // This is a placeholder for actual implementation
             console.log(`Selected: ${buttonText}`);
-            
+
             // You can implement specific logic for each button here
         });
     });
@@ -476,7 +492,7 @@ function showLoadingIndicator(message = 'Loading...') {
     if (document.getElementById('loading-indicator')) {
         return;
     }
-    
+
     const loadingHtml = `
         <div id="loading-indicator" class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style="background-color: rgba(0,0,0,0.5); z-index: 9999;">
             <div class="bg-white p-4 rounded shadow text-center">
@@ -485,7 +501,7 @@ function showLoadingIndicator(message = 'Loading...') {
             </div>
         </div>
     `;
-    
+
     const loadingDiv = document.createElement('div');
     loadingDiv.innerHTML = loadingHtml;
     document.body.appendChild(loadingDiv.firstChild);
@@ -515,11 +531,11 @@ function showErrorMessage(message) {
             </div>
         </div>
     `;
-    
+
     const toastDiv = document.createElement('div');
     toastDiv.innerHTML = toastHtml;
     document.body.appendChild(toastDiv.firstChild);
-    
+
     // Show the toast
     const toast = new bootstrap.Toast(document.getElementById('error-toast'));
     toast.show();
@@ -533,7 +549,7 @@ function clearStoredAuthData() {
     localStorage.removeItem(STORAGE_KEYS.GIFTS_CATEGORY_DATA);
     localStorage.removeItem(STORAGE_KEYS.GIFTS_PRODUCT_DATA);
     localStorage.removeItem(STORAGE_KEYS.LAST_AUTH_TIME);
-    
+
     // Reset the in-memory config as well
     apiConfig1.admin.authToken = null;
     apiConfig1.admin.userData = null;
