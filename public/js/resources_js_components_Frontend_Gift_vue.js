@@ -265,7 +265,7 @@ var render = function render() {
   return _c("div", {
     staticClass: "section"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
-    staticClass: "card-grid card-grid-gift"
+    staticClass: "card-grid card-grid-gift-"
   }, _vm._l(_vm.products, function (product) {
     var _product$images;
     return _c("div", {
