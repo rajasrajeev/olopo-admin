@@ -5,9 +5,9 @@
     </div>
 
     <!-- Products Grid -->
-    <div class="card-grid card-grid-gift-">
+    <div class="card-grid card-grid-gift">
       <div
-        v-for="product in products"
+        v-for="product in paginatedProducts"
         :key="product._id"
         class="brand-card"
       >
@@ -25,35 +25,30 @@
       </div>
     </div>
 
-    <!-- Pagination (ONLY on /gift-vouchers) -->
+    <!-- Pagination (Only on /gift-vouchers) -->
     <div
-      v-if="isGiftVoucherPage"
+      v-if="isGiftVoucherPage && totalPages > 1"
       class="pagination-controls text-center mt-4"
     >
       <button
         class="btn btn-outline-primary"
-        :disabled="currentPage === 1 || loading"
+        :disabled="currentPage === 1"
         @click="prevPage"
       >
         Previous
       </button>
 
       <span class="mx-3">
-        Page {{ currentPage }}
+        Page {{ currentPage }} of {{ totalPages }}
       </span>
 
       <button
         class="btn btn-outline-primary"
-        :disabled="!hasMoreProducts || loading"
+        :disabled="currentPage === totalPages"
         @click="nextPage"
       >
         Next
       </button>
-    </div>
-
-    <!-- Loading -->
-    <div v-if="loading" class="text-center mt-3">
-      Loading...
     </div>
   </div>
 </template>
@@ -64,17 +59,14 @@ export default {
 
   data() {
     return {
-      // API Config from your JS
       baseUrl: "https://gifts.dev.olopo.app",
       authToken: null,
       categoryId: null,
 
-      products: [],
+      allProducts: [], // 👈 store full dataset here
       currentPage: 1,
       productsPerPage: 20,
-      hasMoreProducts: true,
 
-      loading: false,
       fallbackImage:
         "assets/images/brands/new-smartphones-stand-row-showcase-store 1.png",
     };
@@ -84,16 +76,30 @@ export default {
     isGiftVoucherPage() {
       return this.$route.path.replace(/\/$/, "") === "/gift-vouchers";
     },
+
+    totalPages() {
+      return Math.ceil(this.allProducts.length / this.productsPerPage);
+    },
+
+    paginatedProducts() {
+      // 🏠 Home → only first 4
+      if (!this.isGiftVoucherPage) {
+        return this.allProducts.slice(0, 4);
+      }
+
+      // 🎁 Gift vouchers → paginate
+      const start = (this.currentPage - 1) * this.productsPerPage;
+      const end = start + this.productsPerPage;
+
+      return this.allProducts.slice(start, end);
+    },
   },
 
   methods: {
-    // Authenticate with Gifts API
     async authenticate() {
       const response = await fetch(`${this.baseUrl}/admin-login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userName: "info@olopo.app",
           password: "olopo@123",
@@ -101,15 +107,9 @@ export default {
       });
 
       const data = await response.json();
-
-      if (!response.ok || !data.token) {
-        throw new Error("Failed to authenticate with gifts API");
-      }
-
       this.authToken = data.token;
     },
 
-    // Fetch Categories
     async fetchCategory() {
       const response = await fetch(
         `${this.baseUrl}/mobile-get/categories`,
@@ -121,82 +121,47 @@ export default {
       );
 
       const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch categories");
-      }
-
       this.categoryId = data.data[0]?.id;
     },
 
-    // Fetch Products (Server-side Pagination)
     async fetchProducts() {
-      if (!this.categoryId) return;
-
-      this.loading = true;
-
-      try {
-        const response = await fetch(
-          `${this.baseUrl}/mobile-get/categories/${this.categoryId}/products?page=${this.currentPage}&limit=${this.productsPerPage}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.authToken}`,
-            },
-          }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
+      const response = await fetch(
+        `${this.baseUrl}/mobile-get/categories/${this.categoryId}/products`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.authToken}`,
+          },
         }
+      );
 
-        let fetchedProducts = data.data.products || [];
+      const data = await response.json();
 
-        // If home page → limit to 4 only
-        if (!this.isGiftVoucherPage) {
-          fetchedProducts = fetchedProducts.slice(0, 4);
-        }
+      // 👇 Store ALL products
+      this.allProducts = data.data.products || [];
+    },
 
-        this.products = fetchedProducts;
-
-        this.hasMoreProducts =
-          fetchedProducts.length === this.productsPerPage;
-
-      } catch (error) {
-        console.error("Product fetch error:", error);
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
       }
-
-      this.loading = false;
     },
 
-    async nextPage() {
-      if (!this.hasMoreProducts) return;
-      this.currentPage++;
-      await this.fetchProducts();
-    },
-
-    async prevPage() {
-      if (this.currentPage === 1) return;
-      this.currentPage--;
-      await this.fetchProducts();
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
     },
 
     async initialize() {
-      try {
-        await this.authenticate();
-        await this.fetchCategory();
-        await this.fetchProducts();
-      } catch (error) {
-        console.error("Initialization error:", error);
-      }
+      await this.authenticate();
+      await this.fetchCategory();
+      await this.fetchProducts();
     },
   },
 
   watch: {
     "$route.path"() {
-      this.currentPage = 1;
-      this.fetchProducts();
+      this.currentPage = 1; // reset page when route changes
     },
   },
 

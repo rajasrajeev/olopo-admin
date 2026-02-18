@@ -19,25 +19,36 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   name: "Gift",
   data: function data() {
     return {
-      // API Config from your JS
       baseUrl: "https://gifts.dev.olopo.app",
       authToken: null,
       categoryId: null,
-      products: [],
+      allProducts: [],
+      // 👈 store full dataset here
       currentPage: 1,
       productsPerPage: 20,
-      hasMoreProducts: true,
-      loading: false,
       fallbackImage: "assets/images/brands/new-smartphones-stand-row-showcase-store 1.png"
     };
   },
   computed: {
     isGiftVoucherPage: function isGiftVoucherPage() {
       return this.$route.path.replace(/\/$/, "") === "/gift-vouchers";
+    },
+    totalPages: function totalPages() {
+      return Math.ceil(this.allProducts.length / this.productsPerPage);
+    },
+    paginatedProducts: function paginatedProducts() {
+      // 🏠 Home → only first 4
+      if (!this.isGiftVoucherPage) {
+        return this.allProducts.slice(0, 4);
+      }
+
+      // 🎁 Gift vouchers → paginate
+      var start = (this.currentPage - 1) * this.productsPerPage;
+      var end = start + this.productsPerPage;
+      return this.allProducts.slice(start, end);
     }
   },
   methods: {
-    // Authenticate with Gifts API
     authenticate: function authenticate() {
       var _this = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
@@ -62,20 +73,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 2:
               data = _context.v;
-              if (!(!response.ok || !data.token)) {
-                _context.n = 3;
-                break;
-              }
-              throw new Error("Failed to authenticate with gifts API");
-            case 3:
               _this.authToken = data.token;
-            case 4:
+            case 3:
               return _context.a(2);
           }
         }, _callee);
       }))();
     },
-    // Fetch Categories
     fetchCategory: function fetchCategory() {
       var _this2 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
@@ -96,149 +100,74 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 2:
               data = _context2.v;
-              if (response.ok) {
-                _context2.n = 3;
-                break;
-              }
-              throw new Error("Failed to fetch categories");
-            case 3:
               _this2.categoryId = (_data$data$ = data.data[0]) === null || _data$data$ === void 0 ? void 0 : _data$data$.id;
-            case 4:
+            case 3:
               return _context2.a(2);
           }
         }, _callee2);
       }))();
     },
-    // Fetch Products (Server-side Pagination)
     fetchProducts: function fetchProducts() {
       var _this3 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-        var response, data, fetchedProducts, _t;
+        var response, data;
         return _regenerator().w(function (_context3) {
           while (1) switch (_context3.n) {
             case 0:
-              if (_this3.categoryId) {
-                _context3.n = 1;
-                break;
-              }
-              return _context3.a(2);
-            case 1:
-              _this3.loading = true;
-              _context3.p = 2;
-              _context3.n = 3;
-              return fetch("".concat(_this3.baseUrl, "/mobile-get/categories/").concat(_this3.categoryId, "/products?page=").concat(_this3.currentPage, "&limit=").concat(_this3.productsPerPage), {
+              _context3.n = 1;
+              return fetch("".concat(_this3.baseUrl, "/mobile-get/categories/").concat(_this3.categoryId, "/products"), {
                 headers: {
                   Authorization: "Bearer ".concat(_this3.authToken)
                 }
               });
-            case 3:
+            case 1:
               response = _context3.v;
-              _context3.n = 4;
+              _context3.n = 2;
               return response.json();
-            case 4:
+            case 2:
               data = _context3.v;
-              if (response.ok) {
-                _context3.n = 5;
-                break;
-              }
-              throw new Error("Failed to fetch products");
-            case 5:
-              fetchedProducts = data.data.products || []; // If home page → limit to 4 only
-              if (!_this3.isGiftVoucherPage) {
-                fetchedProducts = fetchedProducts.slice(0, 4);
-              }
-              _this3.products = fetchedProducts;
-              _this3.hasMoreProducts = fetchedProducts.length === _this3.productsPerPage;
-              _context3.n = 7;
-              break;
-            case 6:
-              _context3.p = 6;
-              _t = _context3.v;
-              console.error("Product fetch error:", _t);
-            case 7:
-              _this3.loading = false;
-            case 8:
+              // 👇 Store ALL products
+              _this3.allProducts = data.data.products || [];
+            case 3:
               return _context3.a(2);
           }
-        }, _callee3, null, [[2, 6]]);
+        }, _callee3);
       }))();
     },
     nextPage: function nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    prevPage: function prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    initialize: function initialize() {
       var _this4 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
         return _regenerator().w(function (_context4) {
           while (1) switch (_context4.n) {
             case 0:
-              if (_this4.hasMoreProducts) {
-                _context4.n = 1;
-                break;
-              }
-              return _context4.a(2);
+              _context4.n = 1;
+              return _this4.authenticate();
             case 1:
-              _this4.currentPage++;
               _context4.n = 2;
-              return _this4.fetchProducts();
+              return _this4.fetchCategory();
             case 2:
+              _context4.n = 3;
+              return _this4.fetchProducts();
+            case 3:
               return _context4.a(2);
           }
         }, _callee4);
-      }))();
-    },
-    prevPage: function prevPage() {
-      var _this5 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-        return _regenerator().w(function (_context5) {
-          while (1) switch (_context5.n) {
-            case 0:
-              if (!(_this5.currentPage === 1)) {
-                _context5.n = 1;
-                break;
-              }
-              return _context5.a(2);
-            case 1:
-              _this5.currentPage--;
-              _context5.n = 2;
-              return _this5.fetchProducts();
-            case 2:
-              return _context5.a(2);
-          }
-        }, _callee5);
-      }))();
-    },
-    initialize: function initialize() {
-      var _this6 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
-        var _t2;
-        return _regenerator().w(function (_context6) {
-          while (1) switch (_context6.n) {
-            case 0:
-              _context6.p = 0;
-              _context6.n = 1;
-              return _this6.authenticate();
-            case 1:
-              _context6.n = 2;
-              return _this6.fetchCategory();
-            case 2:
-              _context6.n = 3;
-              return _this6.fetchProducts();
-            case 3:
-              _context6.n = 5;
-              break;
-            case 4:
-              _context6.p = 4;
-              _t2 = _context6.v;
-              console.error("Initialization error:", _t2);
-            case 5:
-              return _context6.a(2);
-          }
-        }, _callee6, null, [[0, 4]]);
       }))();
     }
   },
   watch: {
     "$route.path": function $routePath() {
-      this.currentPage = 1;
-      this.fetchProducts();
+      this.currentPage = 1; // reset page when route changes
     }
   },
   mounted: function mounted() {
@@ -265,8 +194,8 @@ var render = function render() {
   return _c("div", {
     staticClass: "section"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
-    staticClass: "card-grid card-grid-gift-"
-  }, _vm._l(_vm.products, function (product) {
+    staticClass: "card-grid card-grid-gift"
+  }, _vm._l(_vm.paginatedProducts, function (product) {
     var _product$images;
     return _c("div", {
       key: product._id,
@@ -281,29 +210,27 @@ var render = function render() {
     })]), _vm._v(" "), _c("div", {
       staticClass: "brand-info"
     }, [_c("h4", [_vm._v(_vm._s(product.name))]), _vm._v(" "), _c("p", [_vm._v("SKU: " + _vm._s(product.sku))])])]);
-  }), 0), _vm._v(" "), _vm.isGiftVoucherPage ? _c("div", {
+  }), 0), _vm._v(" "), _vm.isGiftVoucherPage && _vm.totalPages > 1 ? _c("div", {
     staticClass: "pagination-controls text-center mt-4"
   }, [_c("button", {
     staticClass: "btn btn-outline-primary",
     attrs: {
-      disabled: _vm.currentPage === 1 || _vm.loading
+      disabled: _vm.currentPage === 1
     },
     on: {
       click: _vm.prevPage
     }
   }, [_vm._v("\n      Previous\n    ")]), _vm._v(" "), _c("span", {
     staticClass: "mx-3"
-  }, [_vm._v("\n      Page " + _vm._s(_vm.currentPage) + "\n    ")]), _vm._v(" "), _c("button", {
+  }, [_vm._v("\n      Page " + _vm._s(_vm.currentPage) + " of " + _vm._s(_vm.totalPages) + "\n    ")]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-outline-primary",
     attrs: {
-      disabled: !_vm.hasMoreProducts || _vm.loading
+      disabled: _vm.currentPage === _vm.totalPages
     },
     on: {
       click: _vm.nextPage
     }
-  }, [_vm._v("\n      Next\n    ")])]) : _vm._e(), _vm._v(" "), _vm.loading ? _c("div", {
-    staticClass: "text-center mt-3"
-  }, [_vm._v("\n    Loading...\n  ")]) : _vm._e()]);
+  }, [_vm._v("\n      Next\n    ")])]) : _vm._e()]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
