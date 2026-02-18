@@ -14,7 +14,7 @@ const apiConfig1 = {
         categoryData: null,
         productData: null,
         currentPage: 1, // Track the current page for pagination
-        productsPerPage: 6, // Number of products to load per page
+        productsPerPage: 20, // Number of products to load per page
         hasMoreProducts: true // Flag to track if more products are available
     }
 };
