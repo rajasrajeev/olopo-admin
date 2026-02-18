@@ -143,13 +143,22 @@ export default {
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
+        this.scrollToTop();
       }
     },
 
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage--;
+        this.scrollToTop();
       }
+    },
+
+    scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     },
 
     async initialize() {

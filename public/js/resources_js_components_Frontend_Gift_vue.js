@@ -137,12 +137,20 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     nextPage: function nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
+        this.scrollToTop();
       }
     },
     prevPage: function prevPage() {
       if (this.currentPage > 1) {
         this.currentPage--;
+        this.scrollToTop();
       }
+    },
+    scrollToTop: function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     },
     initialize: function initialize() {
       var _this4 = this;
