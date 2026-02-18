@@ -55,7 +55,7 @@ async function initializeApp() {
         await fetchCategoriesAndProducts();
         
         // Render the products to the page
-        renderProductsToPage(false); // false means don't append, replace
+        // renderProductsToPage(false); // false means don't append, replace
         
         hideLoadingIndicator();
     } catch (error) {
@@ -283,7 +283,7 @@ async function fetchCategoriesAndProducts() {
 }
 
 // Render the products to the brand section of the page
-function renderProductsToPage(append = false) {
+/* function renderProductsToPage(append = false) {
     // Make sure we have product data
     if (!apiConfig3.gifts.productData || !apiConfig3.gifts.productData.products) {
         console.error('No product data available to render');
@@ -317,7 +317,7 @@ function renderProductsToPage(append = false) {
     } else {
         console.error('Brand grid element not found in the DOM');
     }
-}
+} */
 
 // Update the state of the "View More" button
 function updateViewMoreButtonState() {
@@ -377,7 +377,7 @@ async function loadMoreProducts() {
         await fetchCategoriesAndProducts();
         
         // Render the new products, appending them to existing ones
-        renderProductsToPage(true);
+        // renderProductsToPage(true);
         
         hideLoadingIndicator();
     } catch (error) {
