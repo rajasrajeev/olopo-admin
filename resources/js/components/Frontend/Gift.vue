@@ -5,7 +5,7 @@
     </div>
 
     <!-- Products Grid -->
-    <div class="card-grid card-grid-gift">
+    <div class="card-grid card-grid-gift---">
       <div
         v-for="product in paginatedProducts"
         :key="product._id"
