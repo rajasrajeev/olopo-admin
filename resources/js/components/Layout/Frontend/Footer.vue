@@ -45,10 +45,12 @@
                     <h5>Olopo</h5>
                     <ul>
                     <li><a href="/">Home Page</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="/contact">Contact Us</a></li>
-                    <li><a href="#">Blogs</a></li>
-                    <li><a href="/gallery">Gallery</a></li>
+                    <li><a href="/assets/pdf/Product%20Service.pdf" target="_blank">Product Service</a></li>
+                    <li><a href="/assets/pdf/About%20Us.pdf">About Us</a></li>
+                    <li><a href="/assets/pdf/Contact%20Us.pdf">Contact Us</a></li>
+                    <li><a href="/assets/pdf/Cancellation%20&%20Refund%20Policy%20Merchnat.pdf">Cancellation & Refund Policy Merchants</a></li>
+                    <li><a href="/assets/pdf/Cancellation%20&%20Refund%20Policy%20User.pdf">Cancellation & Refund Policy Users</a></li>
+                    <li><a href="/assets/pdf/Price%20Information%20Related%20to%20Product%20Service.pdf">Price Information Related to Product Service</a></li>
                     </ul>
                 </div>
                 </div>
