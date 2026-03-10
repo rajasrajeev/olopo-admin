@@ -307,21 +307,30 @@ var staticRenderFns = [function () {
     }
   }, [_vm._v("Home Page")])]), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
-      href: "#"
+      href: "/assets/pdf/Product%20Service.pdf",
+      target: "_blank"
+    }
+  }, [_vm._v("Product Service")])]), _vm._v(" "), _c("li", [_c("a", {
+    attrs: {
+      href: "/assets/pdf/About%20Us.pdf"
     }
   }, [_vm._v("About Us")])]), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
-      href: "/contact"
+      href: "/assets/pdf/Contact%20Us.pdf"
     }
   }, [_vm._v("Contact Us")])]), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
-      href: "#"
+      href: "/assets/pdf/Cancellation%20&%20Refund%20Policy%20Merchnat.pdf"
     }
-  }, [_vm._v("Blogs")])]), _vm._v(" "), _c("li", [_c("a", {
+  }, [_vm._v("Cancellation & Refund Policy Merchants")])]), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
-      href: "/gallery"
+      href: "/assets/pdf/Cancellation%20&%20Refund%20Policy%20User.pdf"
     }
-  }, [_vm._v("Gallery")])])])])]);
+  }, [_vm._v("Cancellation & Refund Policy Users")])]), _vm._v(" "), _c("li", [_c("a", {
+    attrs: {
+      href: "/assets/pdf/Price%20Information%20Related%20to%20Product%20Service.pdf"
+    }
+  }, [_vm._v("Price Information Related to Product Service")])])])])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
