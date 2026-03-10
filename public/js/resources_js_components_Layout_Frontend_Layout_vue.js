@@ -307,28 +307,33 @@ var staticRenderFns = [function () {
     }
   }, [_vm._v("Home Page")])]), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
-      href: "/assets/pdf/Product%20Service.pdf",
+      href: "/assets/pdf/Product-Service.pdf",
       target: "_blank"
     }
   }, [_vm._v("Product Service")])]), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
-      href: "/assets/pdf/About%20Us.pdf"
+      href: "/assets/pdf/About-Us.pdf",
+      target: "_blank"
     }
   }, [_vm._v("About Us")])]), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
-      href: "/assets/pdf/Contact%20Us.pdf"
+      href: "/assets/pdf/Contact-Us.pdf",
+      target: "_blank"
     }
   }, [_vm._v("Contact Us")])]), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
-      href: "/assets/pdf/Cancellation%20&%20Refund%20Policy%20Merchnat.pdf"
+      href: "/assets/pdf/Cancellation-&-Refund-Policy-Merchnat.pdf",
+      target: "_blank"
     }
   }, [_vm._v("Cancellation & Refund Policy Merchants")])]), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
-      href: "/assets/pdf/Cancellation%20&%20Refund%20Policy%20User.pdf"
+      href: "/assets/pdf/Cancellation-&-Refund-Policy-User.pdf",
+      target: "_blank"
     }
   }, [_vm._v("Cancellation & Refund Policy Users")])]), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
-      href: "/assets/pdf/Price%20Information%20Related%20to%20Product%20Service.pdf"
+      href: "/assets/pdf/Price-Information-Related-to-Product-Service.pdf",
+      target: "_blank"
     }
   }, [_vm._v("Price Information Related to Product Service")])])])])]);
 }, function () {
